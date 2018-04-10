@@ -15,15 +15,36 @@ import java.util.Stack;
  * @author Ben Norman
  */
 public class Main {
+
     // holds "image" of land
     private final int[][] data = new int[400][600];
-    // barren land rect
+    // {0,292,399,307}
     private final int[] rect = {0, 292, 399, 307};
+    //{“48 192 351 207”, “48 392 351 407”, “120 52 135 547”, “260 52 275 547”} 
+    private final int[] r1 = {48, 192, 351, 207};
+    private final int[] r2 = {48, 392, 351, 407};
+    private final int[] r3 = {120, 52, 135, 547};
+    private final int[] r4 = {260, 52, 275, 547};
 
     public static void main(String[] args) {
         Main m = new Main();
-        m.markBarrenLand();
+//        m.markBarrenLand();
+        m.markBarrenLand(m.r1, m.r2, m.r3, m.r4);
         m.run();
+    }
+
+    // fertile land is 0, mark barren land as one
+    private void markBarrenLand(int[]... rects) {
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < data[i].length; j++) {
+                for (int[] r : rects) {
+                    if (insideRect(i, j, r)) {
+                        data[i][j] = 1;
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     // fertile land is 0, mark barren land as one
@@ -51,7 +72,6 @@ public class Main {
         }
         // sort the collection in lest to greatest order
         Collections.sort(vals);
-        Collections.reverse(vals);
         // print out list of vals
         for (Integer i : vals) {
             System.out.printf("%d,", i);
@@ -77,6 +97,7 @@ public class Main {
         }
         return area;
     }
+
     // if the xy pair is valid mark it as visited and push the new cell onto the given stack
     // we also return if the location was valid: 0 for invalid 1 for valid
     private int helper(Stack<Cell> cells, int i, int j) {
