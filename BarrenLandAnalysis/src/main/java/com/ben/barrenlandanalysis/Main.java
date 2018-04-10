@@ -59,7 +59,9 @@ public class Main {
         System.out.println("");
     }
 
-    // faster if we only check two directions?
+    // main flood fill algorithm
+    // from a starting cell we check all four directions, then from the new cells we check all for directions, etc...
+    // a stack is used to remember what cells still need processing
     private int iterativeFill(Cell c) {
         int area = 0;
         Stack<Cell> cellToCheck = new Stack<>();
